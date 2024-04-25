@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useState } from "react";
-import { AreaChart, Area, ResponsiveContainer } from "recharts";
 import CountUp from "react-countup";
 import {
   AreaChart,
