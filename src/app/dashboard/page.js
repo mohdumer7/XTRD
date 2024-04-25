@@ -26,7 +26,7 @@ export default function Dashboard() {
         if (!user.email) {
           const { email } = session.user;
           const response = await fetch(
-            `https://xtrd.vercel.app/api/user?email=${email}`
+            `http://xtrd.vercel.app/api/user?email=${email}`
           );
           console.log(response);
           if (response.ok) {
