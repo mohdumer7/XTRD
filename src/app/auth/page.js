@@ -1,6 +1,5 @@
 "use client";
 import { signIn, useSession } from "next-auth/react";
-
 import React, { useEffect, useState } from "react";
 import { Label } from "../components/ui/label";
 import { Input } from "../components/ui/input";
@@ -10,6 +9,8 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 
 export default function Authentication() {
+  const apiUrl =
+    process.env.currentEnv === "LOCAL" ? process.env.local : process.env.prod;
   const [login, setLogin] = useState(true);
   const router = useRouter();
   const { status, data: session } = useSession();
@@ -31,6 +32,7 @@ export default function Authentication() {
       return { ...form, [key]: value };
     });
   };
+
   const handleSubmit = async (e, provider) => {
     e.preventDefault();
     const id = toast.loading("Sit Tight! we are setting you up");
@@ -109,7 +111,7 @@ export default function Authentication() {
         //   });
         // }
 
-        const response = await fetch("https://xtrd.vercel.app/api/user", {
+        const response = await fetch(`${apiUrl}/api/user`, {
           method: "POST",
           body: JSON.stringify({
             email,

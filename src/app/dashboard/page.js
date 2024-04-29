@@ -9,6 +9,8 @@ import { toast } from "react-toastify";
 import DashboardPage from "../components/DashboardPage/DashboardPage";
 
 export default function Dashboard() {
+  const apiUrl =
+    process.env.currentEnv === "LOCAL" ? process.env.local : process.env.prod;
   const { status, data: session } = useSession();
   const [loading, setLoading] = useState(true);
   const user = useSelector((state) => state.user);
@@ -20,14 +22,11 @@ export default function Dashboard() {
   }
 
   const fetchUser = async () => {
-    // console.log({ status, session, user });
     if (status === "authenticated" && session.user) {
       try {
         if (!user.email) {
           const { email } = session.user;
-          const response = await fetch(
-            `https://xtrd.vercel.app/api/user?email=${email}`
-          );
+          const response = await fetch(`${apiUrl}/api/user?email=${email}`);
           console.log(response);
           if (response.ok) {
             const { data: userData } = await response.json();

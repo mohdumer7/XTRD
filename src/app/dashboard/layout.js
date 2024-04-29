@@ -8,6 +8,8 @@ import { RiP2PFill } from "react-icons/ri";
 import { IoIosLogOut } from "react-icons/io";
 import { signOut } from "next-auth/react";
 import { FaWallet } from "react-icons/fa";
+import { RiVipCrownFill } from "react-icons/ri";
+import { RiCoinsFill } from "react-icons/ri";
 export default function authLayout({ children }) {
   return (
     <>
@@ -49,7 +51,7 @@ export default function authLayout({ children }) {
                   replace
                   className="text-xl hover:text-white text-neutral-300 gap-2 flex items-center p-2 hover:bg-zinc-700 rounded-md"
                 >
-                  <FaWallet /> Walltet
+                  <FaWallet /> Wallet
                 </Link>
                 <Link
                   href="/dashboard/p2p"
@@ -59,10 +61,23 @@ export default function authLayout({ children }) {
                   <RiP2PFill /> P2P
                 </Link>
               </div>
+              <div className="flex flex-col gap-4">
+                <p className="text-2xl flex gap-2 items-center text-purple-500">
+                  Elite Features
+                  <RiVipCrownFill />
+                </p>
+                <Link
+                  href="/dashboard/transact"
+                  replace
+                  className="text-xl hover:text-white text-neutral-300 gap-2 flex items-center p-2 hover:bg-zinc-700 rounded-md"
+                >
+                  <RiCoinsFill /> Transact
+                </Link>
+              </div>
               <button
                 onClick={signOut}
                 href="dashboard"
-                className="text-xl hover:bg-neutral-300 text-black gap-2 flex justify-center items-center p-2 bg-white rounded-md"
+                className="text-xl hover:bg-neutral-300 text-black gap-4  flex justify-center items-center p-2 bg-white rounded-md"
               >
                 <IoIosLogOut /> Log Out
               </button>
