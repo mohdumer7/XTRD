@@ -14,7 +14,7 @@ import {
 
 const DashboardPage = ({ userData }) => {
   return (
-    <div className="neo-parent  h-screen w-full py-[2rem] px-[3rem] flex flex-col gap-2 ">
+    <div className="neo-parent  h-full w-full py-[2rem] px-[3rem] flex flex-col gap-2 ">
       <div className="text-[2rem] w-full text-neutral-200 font-semibold antialiased  ">
         Hello, Nihal Lalu
       </div>

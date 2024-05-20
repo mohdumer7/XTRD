@@ -4,7 +4,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { connectMongoDb } from "../../../../../lib/mongodb";
 import User from "@/app/models/User";
 import bcrypt from "bcrypt";
-import {verify} from "jsonwebtoken"
+
 export const options = {
   providers: [
     GoogleProvider({
@@ -53,9 +53,9 @@ export const options = {
         token.id = user.id;
       }
 
-      return {...token,...user};
+      return { ...token, ...user };
     },
-    async signIn({ user, account,token,session }) {
+    async signIn({ user, account, token, session }) {
       try {
         if (account.provider === "google") {
           const { name, email } = user;
@@ -84,7 +84,7 @@ export const options = {
 
           if (res.ok) {
             session.user = token;
-            return session
+            return session;
           }
         }
       } catch (err) {
