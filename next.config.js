@@ -28,7 +28,7 @@ const nextConfig = {
   env: {
     local: "http://localhost:3000",
     prod: "https://xtrd.vercel.app",
-    currentEnv: "LOCAL",
+    currentEnv: "PROD",
   },
 };
 
