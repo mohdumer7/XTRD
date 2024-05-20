@@ -27,8 +27,8 @@ const nextConfig = {
   },
   env: {
     local: "http://localhost:3000",
-    prod: "https://xtrd.vercel.app",
-    currentEnv: "LOCAL",
+    prod: "xtrd-pi5r14aov-mohdumer7s-projects.vercel.app",
+    currentEnv: "PROD",
   },
 };
 
