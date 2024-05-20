@@ -27,7 +27,7 @@ const nextConfig = {
   },
   env: {
     local: "http://localhost:3000",
-    prod: "xtrd-pi5r14aov-mohdumer7s-projects.vercel.app",
+    prod: "xtrd-git-feat-responsive-1-mohdumer7s-projects.vercel.app",
     currentEnv: "PROD",
   },
 };
