@@ -46,16 +46,14 @@ export default function Dashboard() {
   };
 
   if (!user.email && fetchingUser && status === "authenticated") {
-    console.log({ user });
+  
     fetchUser();
     setFetchingUser(false);
   } else if (user.email && loading) {
     setLoading(false);
   }
-
-  console.log({ user, fetchingUser, status, loading });
   return (
-    <div className="w-full h-full flex justify-center items-center bg-[#121212]">
+    <div className="w-full flex justify-center items-center bg-[#121212]">
       {loading ? (
         <div className="spinner"></div>
       ) : (

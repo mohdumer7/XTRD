@@ -15,7 +15,7 @@ const Navbar = () => {
   };
   return (
     <div className="bg-black h-auto md:h-24 items-center navbar px-[1.5rem] pt-[1rem] md:px-[4rem] lg:px-44 w-full flex justify-between">
-      <img src="/xtrd_logo.svg" className="w-[10%]"/>
+      <img src="/xtrd_logo.svg" className="w-[10%]" />
       <div className="flex gap-4 ">
         {status === "authenticated" ? (
           <>

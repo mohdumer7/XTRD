@@ -3,13 +3,13 @@ import Faq from "react-faq-component";
 const FAQ = ({data}) => {
 
   return (
-    <section className="h-screen pl-44 pr-44 items-center flex flex-col p-2 gap-24">
+    <section className="h-screen md:px-44 items-center flex flex-col p-2 md:gap-24">
       <div className="left-side-3 con-3  flex flex-col justify-center gap-4">
-        <p className="text-5xl text-white title-3 title-4 ">
+        <p className="text-[1.3rem] md:text-5xl text-[#fed174] title-3 title-4 ">
           FREQUENTLY ASKED QUESTIONS
         </p>
       </div>
-      <div className="con-2 text-2xl flex flex-col w-[67%] ">
+      <div className="con-2 md:leading-[70px] text-xl md:text-2xl flex flex-col w-full md:w-[67%] ">
         <Faq
           data={data}
           styles={{

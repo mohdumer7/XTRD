@@ -36,6 +36,15 @@ module.exports = {
           },
         },
       },
+      colors: {
+        primary: '#FF5733',
+        secondary: '#333333',
+      },
+      fontFamily: {
+        sans: ['Helvetica', 'Arial', 'sans-serif'],
+        serif: ['Georgia', 'serif'],
+      },
+      
     },
   },
   plugins: [

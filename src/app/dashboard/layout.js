@@ -10,21 +10,42 @@ import { signOut } from "next-auth/react";
 import { FaWallet } from "react-icons/fa";
 import { RiVipCrownFill } from "react-icons/ri";
 import { RiCoinsFill } from "react-icons/ri";
+import { useState } from "react";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { IoClose } from "react-icons/io5";
+
 export default function authLayout({ children }) {
+  const [open, setOpen] = useState(true);
   return (
     <>
       <section className="h-screen w-full text-white  dashboard-bg ">
-        <DotBackground>
-          <section className="w-full flex h-full rounded-2xl isolate aspect-video pl-4 bg-[#121212] shadow-lg ring-1 ring-black shadow-lg">
-            {/* Scrollable Content */}
-            <div className="h-full w-1/5 min-h-full p-8 neo-out-card  bg-[#121212] justify-between flex flex-col">
-              <div className="flex p-2 w-full items-center ">
-                <img src="/logo.svg" className="h-[30px] opacity-70" />
-                <p className="text-3xl pl-2 font-extrabold tracking-wide">
-                  XTRD
-                </p>
+        <div className="h-full">
+          <section className="w-full h-screen flex relative isolate aspect-video bg-[#121212] shadow-lg ring-1 ring-black shadow-lg">
+            <div
+              className={`${
+                open ? "absolute h-screen lg:relative flex" : "hidden"
+              }  h-full w-full  left-0  z-10 top-0 sm:w-2/5 lg:w-1/5 min-h-screen  neo-out-card  bg-[#4a2d7e] justify-between flex-col`}
+            >
+              {/* logo and toggle */}
+              <div className="flex p-4 w-full items-center justify-between ">
+                <div className="flex ">
+                  {/* <img src="/logo.svg" className="h-[30px] opacity-70" /> */}
+                  {/* <p className="text-3xl pl-2 font-extrabold tracking-wide">
+                    XTRD
+                  </p> */}
+                  <img src="/xtrd_logo.svg" className="w-[100%] h-[42px]" />
+                </div>
+                <button
+                  className="p-[.3rem] bg-red-500 rounded-lg"
+                  onClick={() => {
+                    setOpen(!open);
+                  }}
+                >
+                  {open ? <IoClose /> : <GiHamburgerMenu />}
+                </button>
               </div>
-              <div className="flex flex-col h-2/5 gap-4">
+              {/* logo and toggle end */}
+              <div className="flex flex-col p-8 overflow-auto gap-4">
                 <Link
                   href="/dashboard"
                   replace
@@ -61,52 +82,65 @@ export default function authLayout({ children }) {
                   <RiP2PFill /> P2P
                 </Link>
               </div>
-              <div className="flex flex-col gap-4">
-                <p className="text-2xl flex gap-2 items-center text-purple-500">
-                  Elite Features
-                  <RiVipCrownFill />
-                </p>
-                <Link
-                  href="/dashboard/transact"
-                  replace
-                  className="text-xl hover:text-white text-neutral-300 gap-2 flex items-center p-2 hover:bg-zinc-700 rounded-md"
-                >
-                  <RiCoinsFill /> Transact
-                </Link>
-              </div>
-              <button
-                onClick={signOut}
-                href="dashboard"
-                className="text-xl hover:bg-neutral-300 text-black gap-4  flex justify-center items-center p-2 bg-white rounded-md"
-              >
-                <IoIosLogOut /> Log Out
-              </button>
-              <div className="h-10 flex gap-2 items-center p-2 mb-10">
-                <div className="w-1/3 ">
-                  <img
-                    src="https://cryptologos.cc/logos/apecoin-ape-ape-logo.svg?v=029"
-                    alt="pf"
-                  />
+              <div className="gap-4 p-8">
+                <div className="flex flex-col mb-5">
+                  <p className="text-2xl flex gap-2 items-center text-purple-500">
+                    Elite Features
+                    <RiVipCrownFill />
+                  </p>
+                  <Link
+                    href="/dashboard/transact"
+                    replace
+                    className="text-xl hover:text-white text-neutral-300 gap-2 flex items-center p-2 hover:bg-zinc-700 rounded-md"
+                  >
+                    <RiCoinsFill /> Swap fiat
+                  </Link>
                 </div>
-                <div className="w-full h-full flex flex-col">
-                  <div className="flex items-center font-bold text-xs w-full h-2/3 md:text-base">
-                    Mohammed Umer
+                <button
+                  onClick={signOut}
+                  href="dashboard"
+                  className="text-xl w-full hover:bg-neutral-300 text-black gap-4 mb-2 flex justify-center items-center p-2 bg-white rounded-md"
+                >
+                  <IoIosLogOut /> Log Out
+                </button>
+                <div className=" flex gap-2 items-center">
+                  <div className="w-1/3 ">
+                    <img
+                      src="https://cryptologos.cc/logos/apecoin-ape-ape-logo.svg?v=029"
+                      alt="pf"
+                    />
                   </div>
-                  <div className=" w-full h-1/3">Basic plan</div>
+                  <div className="w-full h-full flex flex-col">
+                    <div className="flex items-center font-bold text-xs w-full h-2/3 md:text-base">
+                      Mohammed Umer
+                    </div>
+                    <div className=" w-full h-1/3">Basic plan</div>
+                  </div>
                 </div>
               </div>
             </div>
+            {/* Scrollable Content */}
             {/* <div className=" opacity-20 h-full w-[1px] min-h-full relative">
               <div
                 className="absolute left-1/2 transform translate-y-[80px] rounded-3xl translate-x-1/2 top-0 bottom-0 bg-slate-100 w-px"
                 style={{ height: "90%" }}
               ></div>
             </div> */}
-            <div className="w-full  overflow-y-auto ml-1/12 min-h-full">
+            <div className="w-full h-screen  scroll-custom relative ml-1/12">
+              <button
+                onClick={() => {
+                  setOpen(!open);
+                }}
+                className={`${
+                  open ? " hidden" : " bg-green-500"
+                } p-[4px] top-6 absolute rounded-tr-lg rounded-br-lg font-bold `}
+              >
+                {open ? "" : <GiHamburgerMenu />}
+              </button>
               {children}
             </div>
           </section>
-        </DotBackground>
+        </div>
       </section>
     </>
   );

@@ -14,19 +14,23 @@ import {
 
 const DashboardPage = ({ userData }) => {
   return (
-    <div className="neo-parent  h-full  w-full p-8 pt-20 flex flex-col gap-2 ">
-      <div className="text-5xl w-full mb-4 text-neutral-200 font-semibold antialiased  ">
+    <div className="neo-parent  h-screen w-full py-[2rem] px-[3rem] flex flex-col gap-2 ">
+      <div className="text-[2rem] w-full text-neutral-200 font-semibold antialiased  ">
+        Hello, Nihal Lalu
+      </div>
+      <div className="text-[1.2rem] w-full text-neutral-200 font-semibold antialiased  ">
         Dashboard
       </div>
-      <div className="w-full h-full mt-4 ">
-        <div className="grid grid-cols-3 items-center gap-4 h-full w-full">
-          <div className="gap-2 flex flex-col p-12 col-span-2 rounded-xl h-full w-full neo-card">
-            <div className="w-full text-neutral-300 text-4xl font-bold ">
+      {/* <div className="w-full h-full mt-2 "> */}
+      <div className="grid grid-cols-12 items-center gap-4 w-full h-full">
+        <div className="col-span-12 md:col-span-8 flex flex-col h-full gap-[2rem] justify-around ">
+          <div className="gap-2 flex flex-col p-[2rem] rounded-xl w-full neo-card h-[50%]">
+            <div className="w-full text-neutral-300 text-3xl font-bold ">
               Total Portfolio
             </div>
-            <div className="w-full h-full flex gap-4 items-center">
-              <div className="w-1/2 h-full justify-center flex flex-col">
-                <div className="font-bold text-6xl p-2 ">&#8377; 1,20,00</div>
+            <div className="w-full h-full flex-col sm:flex-row flex gap-4 items-center">
+              <div className="w-2/2 md:w-1/2 h-full justify-center flex flex-col">
+                <div className="font-bold text-4xl p-2 ">&#8377; 1,20,00</div>
                 <div className="font-bold text-green-500 flex ml-2 gap-1 items-center text-lg p-2 w-full">
                   +4%
                   <FaArrowAltCircleUp />
@@ -35,7 +39,7 @@ const DashboardPage = ({ userData }) => {
                   </div>
                 </div>
               </div>
-              <div className="w-full h-full p-4">
+              <div className="w-full h-full ">
                 <ResponsiveContainer width="100%" height="90%">
                   <AreaChart data={testGraphData}>
                     <YAxis
@@ -81,30 +85,58 @@ const DashboardPage = ({ userData }) => {
               </div>
             </div>
           </div>
-
-          <div className="col-span-1 flex flex-col p-8 rounded-md row-span-2  h-full w-full neo-card">
-            <div className="w-full p-2 text-6xl font-bold text-neutral-300">
-              Transactions
-            </div>
-            <div className="flex w-full text-2xl font-bold text-neutral-600 h-full justify-center items-center">
-              No Transactions Yet
-            </div>
-          </div>
-          <div className=" p-8 flex flex-col col-span-2 rounded-3xl neo-card h-full w-full ">
-            <p className="text-neutral-200 text-3xl font-bold w-full h-max">
+          <div className=" p-8 flex  flex-col rounded-3xl neo-card w-full h-[50%] ">
+            <p className="text-neutral-200 text-3xl font-bold w-full ">
               Current Investment
             </p>
-            <div className="w-full p-4 pb-0 h-full flex items-center">
-              <div className="text-neutral-500 text-6xl  font-bold w-1/2 max-h-10">
+            <div className="w-full flex-col sm:flex-row sm:h-full flex items-center gap-[2.5rem] sm:gap-1 justify-center sm:justify-around">
+              <div className="text-neutral-500 text-4xl  font-bold w-2/2 sm:w-1/2 ">
                 &#8377; 1,00,00
               </div>
-              <div className="text-neutral-100 rounded-xl hover:bg-neutral-700 text-2xl flex gap-2 p-8 bg-neutral-800 items-center font-bold w-1/2 ">
+              <div className="text-neutral-100 rounded-xl hover:bg-neutral-700 text-2xl flex gap-2 p-8 bg-neutral-800 items-center font-bold w-full sm:w-1/2 ">
                 Add more Funds <BsArrowUpRightCircleFill />
               </div>
             </div>
           </div>
         </div>
+        <div className="neo-card col-span-12 md:col-span-4 flex flex-col h-full  max-h-[calc(89vh-4rem)]  px-[1rem] py-[1rem]">
+          <div className="w-full p-2 text-3xl font-bold text-neutral-300">
+            Transactions
+          </div>
+          <div className="self-start w-full overflow-y-auto py-[1rem] px-[1rem] gap-3 flex flex-col ">
+            {/* <div className=" h-full md:col-span-4 py-[1rem] px-[2rem] flex flex-col justify-around gap-6"></div> */}
+            {[
+              "1,00,000",
+              "2,00,000",
+              "1,40,000",
+              "7,80,000",
+              "6,90,000",
+              "9,20,000",
+              "7,05,000",
+              "7,05,000",
+              "7,05,000",
+              "7,05,000",
+              "7,05,000",
+              "7,05,000",
+              "7,05,000",
+              "7,05,000",
+              "7,05,000",
+              "7,05,000",
+              "7,05,000",
+            ].map((val, index) => {
+              return (
+                <div
+                  key={index}
+                  className="text-neutral-100 rounded-xl hover:bg-neutral-700 text-xl flex gap-2 p-4 bg-neutral-800 items-center font-bold w-full "
+                >
+                  Transaction &#8377;{val} <BsArrowUpRightCircleFill />
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </div>
+      {/* </div> */}
     </div>
   );
 };

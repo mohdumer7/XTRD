@@ -1,7 +1,7 @@
 "use client";
 import { ReactLenis, useLenis } from "@studio-freight/react-lenis";
 import { useEffect, useRef, useState } from "react";
-import { Cursor } from "react-creative-cursor";
+// import { Cursor } from "react-creative-cursor";
 import "react-creative-cursor/dist/styles.css";
 import { gsap } from "gsap-trial";
 import { Inter } from "next/font/google";
@@ -52,7 +52,7 @@ export default function RootLayout({ children }) {
     <html lang="en" className="dark">
       <body className={inter.className}>
         <NextAuthProvider>
-          <Cursor
+          {/* <Cursor
             isGelly={true}
             cursorBackgrounColor={"bisque"}
             exclusionBackgroundColor={"bisque"}
@@ -60,7 +60,7 @@ export default function RootLayout({ children }) {
             className="cursor-styles"
             cursorSize={20}
             animationDuration={0.5}
-          />
+          /> */}
 
           <ReactLenis
             ref={lenisRef}
