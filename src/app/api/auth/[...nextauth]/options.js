@@ -73,7 +73,7 @@ export const options = {
             provider: "google",
           };
           const res = await axios.post(
-            `${process.env.SERVICE_URL}/api/user`,
+            `/api/user`,
             body, // Request body
             {
               headers: {
