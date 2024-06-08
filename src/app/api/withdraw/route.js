@@ -3,8 +3,8 @@ import { connectMongoDb } from "../../../../lib/mongodb";
 import Transaction from "@/app/models/Transaction";
 const nodemailer = require("nodemailer");
 
-const accountSid = "AC2ce23fc08f967cabdcc2f56a5be850c2";
-const authToken = "9b6c02fe196a7fb2041ec922cd604743";
+// const accountSid = "AC2ce23fc08f967cabdcc2f56a5be850c2";
+// const authToken = "9b6c02fe196a7fb2041ec922cd604743";
 // const client = require("twilio")(accountSid, authToken);
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -227,7 +227,7 @@ export async function POST(req) {
     //   .services("VA54d99eb9bcb770a6597b920b3782edf6")
     //   .verificationChecks.create({ to: "+917348958950", code: "146997" })
     //   .then((verification_check) => console.log(verification_check.status));
-    
+
     return NextResponse.json({ message: "EMAIL SENT" }, { status: 200 });
   } catch (err) {
     return NextResponse.json(
