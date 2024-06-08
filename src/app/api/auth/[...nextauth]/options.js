@@ -72,8 +72,11 @@ export const options = {
             phoneNumber: "NULL",
             provider: "google",
           };
+          console.log("ENVIRONEMNT", process.env.ENV);
+          const apiUrl =
+            process.env.ENV === "local" ? "http://localhost:3000" : "";
           const res = await axios.post(
-            `/api/user`,
+            `${apiUrl}/api/user`,
             body, // Request body
             {
               headers: {
@@ -88,7 +91,6 @@ export const options = {
           }
         }
       } catch (err) {
-        console.log(err);
         return "/error";
       }
       return user;

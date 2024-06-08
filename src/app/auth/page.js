@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 
 export default function Authentication() {
   const apiUrl =
-    process.env.currentEnv === "LOCAL" ? process.env.local : process.env.prod;
+    process.env.currentEnv === "LOCAL" ? process.env.LOCAL : process.env.PROD;
   const [login, setLogin] = useState(true);
   const router = useRouter();
   const { status, data: session } = useSession();

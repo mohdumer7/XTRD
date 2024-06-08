@@ -5,17 +5,17 @@ import bcrypt from "bcrypt";
 import AuthOptions from "../auth/[...nextauth]/route";
 import { getServerSession } from "next-auth";
 import { getToken } from "next-auth/jwt";
-import UserTransaction from "@/app/models/UserTransaction";
+import Transaction from "@/app/models/Transaction";
+// import UserTransaction from "@/app/models/UserTransaction";
 
-
-async function  sanitizeUser(user){
-  const transactions = await UserTransaction.find({userId:user.id})
-  user.transactions = transactions ?? []
-  user.id = user._id.toHexString()
-  delete user.password
-  delete user._id
-  delete user.__v
-  return user
+async function sanitizeUser(user) {
+  user.id = user._id.toHexString();
+  const transactions = await Transaction.find({ userId: user.id });
+  user.transactions = transactions ?? [];
+  delete user.password;
+  delete user._id;
+  delete user.__v;
+  return user;
 }
 export async function GET(req, res) {
   try {
@@ -27,11 +27,11 @@ export async function GET(req, res) {
       return NextResponse.json({ message: "User Not Found" }, { status: 404 });
     }
 
-    const user = await User.findOne({ email }).lean(); 
+    const user = await User.findOne({ email }).lean();
 
     if (user) {
-      const sanitizedUser = await sanitizeUser(user)
-      console.log(sanitizedUser)
+      const sanitizedUser = await sanitizeUser(user);
+      console.log(sanitizedUser);
       return NextResponse.json(
         { message: "User Found", data: sanitizedUser },
         { status: 201 }
@@ -48,30 +48,39 @@ export async function GET(req, res) {
   }
 }
 
-export async function POST(req) {
-  const { firstName, lastName, email, password, phoneNumber, provider } =
-    await req.json();
-  await connectMongoDb();
-  const existingUser = await User.findOne({ email: email });
 
-  const hashedPassword = await bcrypt.hash(password, 10);
-  if (existingUser && provider === "custom") {
+export async function POST(req) {
+  try {
+    const { firstName, lastName, email, password, phoneNumber, provider } =
+      await req.json();
+    await connectMongoDb();
+    const existingUser = await User.findOne({ email: email });
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    if (existingUser && provider === "custom") {
+      return NextResponse.json(
+        { message: "User already Registered" },
+        { status: 402 }
+      );
+    }
+    if (!existingUser) {
+
+      const newUser = await new User({
+        firstName,
+        lastName,
+        email,
+        password: hashedPassword,
+        phoneNumber,
+        provider,
+      });
+      await newUser.save();
+    }
+
+    return NextResponse.json({ message: "User Registered" }, { status: 201 });
+  } catch (err) {
     return NextResponse.json(
-      { message: "User already Registered" },
-      { status: 402 }
+      { message: "Something went Wrong!" },
+      { status: 500 }
     );
   }
-  if (!existingUser) {
-    const newUser = await new User({
-      firstName,
-      lastName,
-      email,
-      password: hashedPassword,
-      phoneNumber,
-      provider,
-    });
-    await newUser.save();
-  }
-
-  return NextResponse.json({ message: "User Registered" }, { status: 201 });
 }

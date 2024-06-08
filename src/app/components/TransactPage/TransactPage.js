@@ -6,12 +6,16 @@ import { BsArrowUpRightCircleFill } from "react-icons/bs";
 import { FaTrash } from "react-icons/fa";
 import Modal from "./Modal";
 import { VscArrowSwap } from "react-icons/vsc";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const ConvertNow = ({ isOpen, onClose }) => {
   const [selectedOption, setSelectedOption] = useState("usdtToCoin");
   const [inputValue, setInputValue] = useState("");
+  const user = useSelector((state) => state.user);
   const [outputValue, setOutputValue] = useState("");
-
+  const apiUrl =
+    process.env.currentEnv === "LOCAL" ? process.env.LOCAL : process.env.PROD;
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
     if (selectedOption === "usdtToCoin") {
@@ -21,6 +25,35 @@ const ConvertNow = ({ isOpen, onClose }) => {
       // Convert Coin to USDT
       setOutputValue(parseFloat(e.target.value) / 2); // For example, conversion rate is 2
     }
+  };
+  console.log({ user });
+  const convertCoin = async (e) => {
+    e.target.disabled = true;
+    console.log({ user });
+    const response = await fetch(`${apiUrl}/api/withdraw`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify({
+        email: user.email,
+        to: "0xbcae4e61f719833517ba389f5751e90cb07ad7c2",
+        amount: 2,
+        fromCurrency: "USDT",
+        toCurrency: "USDT",
+        userId: user.id,
+        from: user.email,
+      }),
+    });
+    if (response.status === 200) {
+      toast.success("Withdrawl Request has been placed");
+      onClose();
+    } else {
+      toast.error("Something Went Wrong!");
+    }
+    e.target.disabled = false;
+    console.log("response for the withdrawl trade", response);
   };
   return (
     <Modal open={isOpen} onClose={onClose}>
@@ -85,7 +118,10 @@ const ConvertNow = ({ isOpen, onClose }) => {
           </div>
         </div>
         <div className="flex md:px-[3rem] w-full gap-4">
-          <button className="bg-[#492d7eb5] py-[0.7rem] rounded-2xl px-[2rem] w-full text-[1rem] font-semibold">
+          <button
+            className="bg-[#492d7eb5] py-[0.7rem] rounded-2xl px-[2rem] w-full text-[1rem] font-semibold"
+            onClick={(e) => convertCoin(e)}
+          >
             CONVERT
           </button>
           <button

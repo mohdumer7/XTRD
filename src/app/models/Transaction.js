@@ -1,48 +1,49 @@
-// models/User.js
 import mongoose, { models } from "mongoose";
-import UserTransaction from "./UserTransaction";
+
+function create_UUID() {
+  var dt = new Date().getTime();
+  var uuid = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
+    /[xy]/g,
+    function (c) {
+      var r = (dt + Math.random() * 16) % 16 | 0;
+      dt = Math.floor(dt / 16);
+      return (c == "x" ? r : (r & 0x3) | 0x8).toString(16);
+    }
+  );
+  return uuid;
+}
 
 const transactionSchema = new mongoose.Schema(
   {
-    type:{ type: String, required: true },
-    status:{ type: String,
-      enum: ["Initiated", "Approved", "Processing","Done","Cancelled"],
-      default: "Initiated",},
-    userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-    from:{ type: String, required: true },
-    to:{ type: String, required: true },
-    dispute:{type:Boolean,required: true,default: false},
-    amount:{ type: Number, required: true },
+    type: { type: String, required: true },
+    status: {
+      type: String,
+      enum: ["Initiated", "Approved", "Processing", "Done", "Cancelled"],
+      default: "Initiated",
+    },
+    userId: {
+      type: mongoose.Schema.Types.String,
+      ref: "User",
+      required: true,
+    },
+    email: { type: String },
+    from: { type: String, required: true },
+    to: { type: String, required: true },
+    dispute: { type: Boolean, required: true, default: false },
+    amount: { type: Number, required: true },
     createdTime: { type: Date, default: Date.now },
     modifiedTime: { type: Date, default: Date.now },
     disputeTime: { type: Date, default: Date.now },
-    disputeReason: { type: String, required: true },
-    fromCurrency: { type: String, required: true},
-    toCurrency: { type: String, required: true},
+    disputeReason: { type: String },
+    fromCurrency: { type: String, required: true },
+    toCurrency: { type: String, required: true },
+    otId: { type: String, default: create_UUID },
   },
   { timestamps: true },
   { collection: "transactions" }
 );
 
-transactionSchema.post("save", async function (doc) {
-  try {
-    // Find or create a UserTransaction document for the user
-    let userTransaction = await UserTransaction.findOne({ userId: doc.userId });
-
-    if (!userTransaction) {
-      userTransaction = new UserTransaction({ userId: doc.userId, transactions: [] });
-    }
-
-    // Push the transaction ID to the transactions array
-    userTransaction.transactions.push(doc._id);
-
-    // Save the UserTransaction document
-    await userTransaction.save();
-  } catch (error) {
-    console.error("Error updating UserTransaction:", error);
-  }
-});
-
-const Transaction = models.Transaction || mongoose.model("Transaction", transactionSchema);
+const Transaction =
+  models.Transaction || mongoose.model("Transaction", transactionSchema);
 
 export default Transaction;

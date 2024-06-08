@@ -10,7 +10,7 @@ import DashboardPage from "../components/DashboardPage/DashboardPage";
 
 export default function Dashboard() {
   const apiUrl =
-    process.env.currentEnv === "LOCAL" ? process.env.local : process.env.prod;
+    process.env.currentEnv === "LOCAL" ? process.env.LOCAL : process.env.PROD;
   const { status, data: session } = useSession();
   const [loading, setLoading] = useState(true);
   const user = useSelector((state) => state.user);
@@ -46,14 +46,13 @@ export default function Dashboard() {
   };
 
   if (!user.email && fetchingUser && status === "authenticated") {
-  
     fetchUser();
     setFetchingUser(false);
   } else if (user.email && loading) {
     setLoading(false);
   }
   return (
-    <div className="w-full flex justify-center items-center bg-[#121212]">
+    <div className="w-full flex h-full justify-center items-center bg-[#121212]">
       {loading ? (
         <div className="spinner"></div>
       ) : (

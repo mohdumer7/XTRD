@@ -40,7 +40,7 @@ export async function POST(req, res) {
         return NextResponse.json({ message: "Data Error" }, { status: 99 });
     }
 
-    const user = await User.findOne({ email }); // Find user by email in the database
+    const user = await User.findOne({ email }); 
     if (!user) {
         const transaction = await new Transaction({
             userId: user.id,
@@ -49,6 +49,7 @@ export async function POST(req, res) {
             type,
             status,
             from,
+            email,
             to,
             dispute,
             amount,
