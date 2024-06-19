@@ -1,37 +1,47 @@
 "use client";
 
-import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { redirect, useRouter } from "next/navigation";
 
-import { useRouter } from "next/navigation";
-
-import DashboardPage from "../../components/DashboardPage/DashboardPage";
+import useUserSession from "@/app/hooks/useUserSession";
+import P2pPage from "@/app/components/P2pPage/p2pPage";
+import PhoneModal from "@/app/components/ui/PhoneModal";
 
 export default function P2p() {
-  const { status, data: session } = useSession();
-  const [loading, setLoading] = useState(true);
-  const user = useSelector((state) => state.user);
+  const {
+    status,
+    user,
+    loading,
+    isModalOpen,
+    setIsModalOpen,
+    handlePhoneSubmit,
+    handleOTPSubmit,
+    handleConsentSubmit,
+    initialStep
+  } = useUserSession();
 
   const router = useRouter();
   if (status === "unauthenticated") {
-    router.replace("/dashboard");
+    router.replace("/");
   }
-  useEffect(() => {
-    if (user) {
-      setLoading(false);
-    }
-  }, []);
+
   return (
-    <div className="w-full h-full flex justify-center items-center">
+    <div className="w-full flex h-full justify-center items-center bg-[#121212]">
       {loading ? (
         <div className="spinner"></div>
-      ) : (
-        <>
-          <DashboardPage userData={user} />
-        </>
+      ) : ( isModalOpen? <PhoneModal
+        isOpen={isModalOpen}
+        onRequestClose={() => setIsModalOpen(false)}
+        onPhoneSubmit={handlePhoneSubmit}
+        onOTPSubmit={handleOTPSubmit}
+        onConsentSubmit={handleConsentSubmit}
+        initialStep={initialStep}
+      />:
+        (<>
+          <P2pPage userData={user} />
+        </>)
       )}
+      
     </div>
   );
-  // return <>{loading ? <div className="spinner"></div> : <>{user.email}</>}</>;
 }
+

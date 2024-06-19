@@ -12,11 +12,12 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const DashboardPage = ({ userData }) => {
+
+const P2pPage = ({ userData }) => {
   return (
     <div className="neo-parent  h-full w-full py-[2rem] px-[3rem] flex flex-col gap-2 ">
       <div className="text-5xl w-full text-neutral-200 font-semibold antialiased  mb-2">
-        Dashboard
+        Peer To Peer
       </div>
       {/* <div className="w-full h-full mt-2 "> */}
       <div className="grid grid-cols-12 items-center gap-4 w-full h-full">
@@ -138,4 +139,4 @@ const DashboardPage = ({ userData }) => {
   );
 };
 
-export default DashboardPage;
+export default P2pPage;

@@ -32,10 +32,7 @@ const SupportPage = ({ userData }) => {
     // </div>
     <div className="w-full h-full  ">
       <div className="h-full w-full py-[2rem] px-[3rem] rounded-xl flex flex-col  bg-[#121212] ">
-        <div className="text-[2rem] w-full text-neutral-200 font-semibold   ">
-          Hello, Nihal Lalu
-        </div>
-        <div className="text-[1.2rem] w-full text-neutral-200 font-semibold   ">
+      <div className="text-5xl w-full text-neutral-200 font-semibold antialiased  mb-2">
           Support
         </div>
 

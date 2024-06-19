@@ -1,5 +1,5 @@
 "use client";
-import { ReactLenis, useLenis } from "@studio-freight/react-lenis";
+// import { ReactLenis, useLenis } from "@studio-freight/react-lenis";
 import { useEffect, useRef, useState } from "react";
 // import { Cursor } from "react-creative-cursor";
 import "react-creative-cursor/dist/styles.css";
@@ -14,14 +14,14 @@ const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({ children }) {
   const [aspect, setAspect] = useState(1);
-  const lenisRef = useRef();
+  // const lenisRef = useRef();
 
   useEffect(() => {
     function update(time) {
-      lenisRef.current?.raf(time * 1000);
+      // lenisRef.current?.raf(time * 1000);
     }
     window.addEventListener("DOMContentLoaded", () => {
-      lenis.on("scroll", ScrollTrigger.update);
+      // lenis.on("scroll", ScrollTrigger.update);
     });
 
     gsap.ticker.add(update);
@@ -62,14 +62,15 @@ export default function RootLayout({ children }) {
             animationDuration={0.5}
           /> */}
 
-          <ReactLenis
+          {/* <ReactLenis
             ref={lenisRef}
             autoRaf={false}
             root
             options={{ autoResize: true, lerp: 0.1, duration: 1.5 }}
           >
             {children}
-          </ReactLenis>
+          </ReactLenis> */}
+           {children}
           <ToastContainer theme="dark" position="top-center" />
         </NextAuthProvider>
       </body>

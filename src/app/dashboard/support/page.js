@@ -1,37 +1,46 @@
 "use client";
 
-import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-
-import { useRouter } from "next/navigation";
-
-import SupportPage from "../../components/SupportPage/page";
+import { redirect, useRouter } from "next/navigation";
+import PhoneModal from "@/app/components/ui/PhoneModal";
+import useUserSession from "@/app/hooks/useUserSession";
+import SupportPage from "@/app/components/SupportPage/page";
 
 export default function Support() {
-  const { status, data: session } = useSession();
-  const [loading, setLoading] = useState(true);
-  const user = useSelector((state) => state.user);
+  const {
+    status,
+    user,
+    loading,
+    isModalOpen,
+    setIsModalOpen,
+    handlePhoneSubmit,
+    handleOTPSubmit,
+    handleConsentSubmit,
+    initialStep
+  } = useUserSession();
 
   const router = useRouter();
   if (status === "unauthenticated") {
     router.replace("/");
   }
-  useEffect(() => {
-    if (user) {
-      setLoading(false);
-    }
-  }, []);
+
   return (
-    <div className="w-full h-full flex justify-center items-center">
+    <div className="w-full flex h-full justify-center items-center bg-[#121212]">
       {loading ? (
         <div className="spinner"></div>
-      ) : (
-        <>
+      ) : ( isModalOpen? <PhoneModal
+        isOpen={isModalOpen}
+        onRequestClose={() => setIsModalOpen(false)}
+        onPhoneSubmit={handlePhoneSubmit}
+        onOTPSubmit={handleOTPSubmit}
+        onConsentSubmit={handleConsentSubmit}
+        initialStep={initialStep}
+      />:
+        (<>
           <SupportPage userData={user} />
-        </>
+        </>)
       )}
+      
     </div>
   );
-  // return <>{loading ? <div className="spinner"></div> : <>{user.email}</>}</>;
 }
+
