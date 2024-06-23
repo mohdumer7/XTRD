@@ -14,6 +14,7 @@ const useUserSession = () => {
   const [fetchingUser, setFetchingUser] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [initialStep, setInitialStep] = useState(1);
+  
 
   const dispatch = useDispatch();
   const router = useRouter();
