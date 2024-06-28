@@ -26,7 +26,7 @@ const customStyles = {
   },
 };
 
-const PhoneModal = ({ isOpen, onRequestClose, onPhoneSubmit, onOTPSubmit, onConsentSubmit, initialStep }) => {
+const PhoneModal = ({ isOpen, onRequestClose, onPhoneSubmit, onOTPSubmit, onConsentSubmit, initialStep, handleSendVerificationEmail, checkEmailVerification }) => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [otp, setOtp] = useState("");
   const [step, setStep] = useState(initialStep);
@@ -35,7 +35,7 @@ const PhoneModal = ({ isOpen, onRequestClose, onPhoneSubmit, onOTPSubmit, onCons
   const [isConsentChecked, setIsConsentChecked] = useState(false);
 
   useEffect(() => {
-    setStep(initialStep);
+    setStep(initialStep)
   }, [initialStep]);
 
   const handlePhoneSubmit = async () => {
@@ -52,7 +52,6 @@ const PhoneModal = ({ isOpen, onRequestClose, onPhoneSubmit, onOTPSubmit, onCons
   const handleOTPSubmit = async () => {
     try {
       await onOTPSubmit(otp, phoneNumber);
-      setStep(3);
     } catch (error) {
       console.error("Error submitting OTP:", error);
     }
@@ -85,30 +84,48 @@ const PhoneModal = ({ isOpen, onRequestClose, onPhoneSubmit, onOTPSubmit, onCons
     }
   };
 
+  const handleSendVerificationEmailClick = async () => {
+    try {
+      await handleSendVerificationEmail();
+    } catch (error) {
+      console.error("Error sending verification email:", error);
+    }
+  };
+
+  const handleCheckEmailVerificationClick = async () => {
+    try {
+      await checkEmailVerification();
+    } catch (error) {
+      console.error("Error checking email verification:", error);
+    }
+  };
+
   return (
+
     <Modal
       isOpen={isOpen}
       style={customStyles}
+
       contentLabel="Phone Verification"
       ariaHideApp={false} // Add this line to avoid accessibility issues if this is the only modal in your app
     >
       {step === 1 && (
-        <div>
+        <div className="text-black">
           <h2>Enter Your Phone Number</h2>
           <PhoneInput
             country={"in"}
             value={phoneNumber}
             onChange={setPhoneNumber}
-
           />
           <button onClick={handlePhoneSubmit}>Continue</button>
         </div>
       )}
       {step === 2 && (
-        <div>
+        <div className="text-black">
           <h2>Enter OTP</h2>
           <input
             type="text"
+            className="bg-white"
             value={otp}
             onChange={(e) => setOtp(e.target.value)}
             maxLength={6}
@@ -131,6 +148,14 @@ const PhoneModal = ({ isOpen, onRequestClose, onPhoneSubmit, onOTPSubmit, onCons
       )}
       {step === 3 && (
         <div className="text-black">
+          <h2>Verify Your Email</h2>
+          <p>Waiting for you to verify the email we have sent.</p>
+          <button onClick={handleSendVerificationEmailClick}>Resend Email</button>
+          <button onClick={handleCheckEmailVerificationClick}>Proceed</button>
+        </div>
+      )}
+      {step === 4 && (
+        <div className="text-black">
           <h2>Terms and Conditions</h2>
           <div className="terms-content" style={{ maxHeight: "300px", overflowY: "scroll", border: "1px solid #ccc", padding: "1rem", marginBottom: "1rem" }}>
             <p>Terms and conditions content goes here...</p>
@@ -151,6 +176,7 @@ const PhoneModal = ({ isOpen, onRequestClose, onPhoneSubmit, onOTPSubmit, onCons
         </div>
       )}
     </Modal>
+    
   );
 };
 

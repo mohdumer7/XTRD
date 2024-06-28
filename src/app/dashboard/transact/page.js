@@ -15,7 +15,9 @@ export default function Transact() {
     handlePhoneSubmit,
     handleOTPSubmit,
     handleConsentSubmit,
-    initialStep
+    initialStep,
+    handleSendVerificationEmail,
+    checkEmailVerification,
   } = useUserSession();
 
   const router = useRouter();
@@ -34,6 +36,8 @@ export default function Transact() {
         onOTPSubmit={handleOTPSubmit}
         onConsentSubmit={handleConsentSubmit}
         initialStep={initialStep}
+        handleSendVerificationEmail = {handleSendVerificationEmail}
+        checkEmailVerification = {checkEmailVerification}
       />:
         (<>
           <ConvertNow userData={user} />

@@ -13,9 +13,13 @@ import { RiCoinsFill } from "react-icons/ri";
 import { useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoClose } from "react-icons/io5";
+import useUserSession from "../hooks/useUserSession";
 
 export default function authLayout({ children }) {
   const [open, setOpen] = useState(true);
+  const {
+    user,
+  } = useUserSession();
   return (
     <div className="flex">
       <div
@@ -64,7 +68,15 @@ export default function authLayout({ children }) {
           >
             <BiSupport /> Support
           </Link>
-          <Link
+
+            <Link
+              href="/dashboard/transact"
+              replace
+              className="text-xl hover:text-white text-neutral-300 gap-2 flex items-center p-2 hover:bg-zinc-700 rounded-md"
+            >
+              <RiCoinsFill /> Swap fiat
+            </Link>
+          {/* <Link
             href="/dashboard/wallet"
             replace
             className="text-xl hover:text-white text-neutral-300 gap-2 flex items-center p-2 hover:bg-zinc-700 rounded-md"
@@ -77,10 +89,10 @@ export default function authLayout({ children }) {
             className="text-xl hover:text-white text-neutral-300 gap-2 flex items-center p-2 hover:bg-zinc-700 rounded-md"
           >
             <RiP2PFill /> P2P
-          </Link>
+          </Link> */}
         </div>
-        <div className="gap-4 p-8">
-          <div className="flex flex-col mb-5">
+        <div className="gap-8 p-8 flex flex-col">
+          {/* <div className="flex flex-col mb-5">
             <p className="text-2xl flex gap-2 items-center text-purple-500">
               Elite Features
               <RiVipCrownFill />
@@ -92,11 +104,11 @@ export default function authLayout({ children }) {
             >
               <RiCoinsFill /> Swap fiat
             </Link>
-          </div>
+          </div> */}
           <button
             onClick={signOut}
             href="dashboard"
-            className="text-xl w-full hover:bg-neutral-300 text-black gap-4 mb-2 flex justify-center items-center p-2 bg-white rounded-md"
+            className="text-xl w-full my-6 hover:bg-neutral-300 text-black gap-4 mb-2 flex justify-center items-center p-2 bg-white rounded-md"
           >
             <IoIosLogOut /> Log Out
           </button>
@@ -109,9 +121,9 @@ export default function authLayout({ children }) {
             </div>
             <div className="w-full h-full flex flex-col">
               <div className="flex items-center font-bold text-xs w-full h-2/3 md:text-base">
-                Mohammed Umer
+                {user?.firstName}  {user?.lastName}
               </div>
-              <div className=" w-full h-1/3">Basic plan</div>
+              <div className=" w-full h-1/3">{user?.userPlan}</div>
             </div>
           </div>
         </div>

@@ -26,7 +26,7 @@ const purchaseSchema = new mongoose.Schema(
     price: { type: Number, required: true },
     dateBought: { type: Date, required: true },
     id: { type: String, default: uuidv4 },
-    data:{type:mongoose.Schema.Types.Mixed}
+    data: { type: mongoose.Schema.Types.Mixed }
   },
   { _id: false }
 );
@@ -56,6 +56,9 @@ const userSchema = new mongoose.Schema(
     didConsent: { type: Boolean, default: false },
     trades: [tradeSchema],
     purchases: [purchaseSchema],
+    emailVerified: { type: Boolean, default: false },
+    emailVerificationToken: { type: String },
+    emailVerificationExpires: { type: Date },
   },
   { timestamps: true },
   { collection: "users" }

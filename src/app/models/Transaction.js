@@ -18,7 +18,7 @@ const transactionSchema = new mongoose.Schema(
     type: { type: String, required: true },
     status: {
       type: String,
-      enum: ["Initiated", "Approved", "Processing", "Done", "Cancelled"],
+      enum: ["Initiated", "Approved", "Processing", "Done", "Cancelled","Dispute","Dispute Resolved"],
       default: "Initiated",
     },
     userId: {

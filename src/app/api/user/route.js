@@ -11,7 +11,12 @@ import Transaction from "@/app/models/Transaction";
 async function sanitizeUser(user) {
   user.id = user._id.toHexString();
   const transactions = await Transaction.find({ userId: user.id });
-  user.transactions = transactions ?? [];
+  
+  const transactionData = transactions.map(transaction=>{
+    transaction.id = transaction._id.toHexString()
+    return transaction
+  })
+  user.transactions = transactionData ?? [];
   delete user.password;
   delete user._id;
   delete user.__v;
@@ -52,7 +57,7 @@ export async function GET(req, res) {
 export async function POST(req) {
   try {
     const { firstName, lastName, email, password, phoneNumber, provider } =
-      await req.json();
+    await new Response(req.body).json()
     await connectMongoDb();
     const existingUser = await User.findOne({ email: email });
 

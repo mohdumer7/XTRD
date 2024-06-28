@@ -101,35 +101,15 @@ const DashboardPage = ({ userData }) => {
             Transactions
           </div>
           <div className="self-start w-full overflow-y-auto py-[1rem] px-[1rem] gap-3 flex flex-col ">
-            {/* <div className=" h-full md:col-span-4 py-[1rem] px-[2rem] flex flex-col justify-around gap-6"></div> */}
-            {[
-              "1,00,000",
-              "2,00,000",
-              "1,40,000",
-              "7,80,000",
-              "6,90,000",
-              "9,20,000",
-              "7,05,000",
-              "7,05,000",
-              "7,05,000",
-              "7,05,000",
-              "7,05,000",
-              "7,05,000",
-              "7,05,000",
-              "7,05,000",
-              "7,05,000",
-              "7,05,000",
-              "7,05,000",
-            ].map((val, index) => {
-              return (
-                <div
-                  key={index}
-                  className="text-neutral-100 rounded-xl hover:bg-neutral-700 text-xl flex gap-2 p-4 bg-neutral-800 items-center font-bold w-full "
-                >
-                  Transaction &#8377;{val} <BsArrowUpRightCircleFill />
-                </div>
-              );
-            })}
+          {userData.transactions.map((transaction, index) => (
+                    <div
+                      key={transaction._id}
+                      className="text-neutral-100 rounded-xl hover:bg-neutral-700 text-xl flex gap-2 p-4 bg-neutral-800 items-center font-bold w-full cursor-pointer"
+                      
+                    >
+                      {transaction.type} {transaction.fromCurrency} {transaction.amount} <BsArrowUpRightCircleFill />
+                    </div>
+                  ))}
           </div>
         </div>
       </div>

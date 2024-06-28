@@ -39,14 +39,7 @@ const SupportPage = ({ userData }) => {
         <div className="flex justify-center  gap-4 w-full h-full">
           <div name="contact" className="w-full h-full flex justify-center text-white">
             <div className="flex flex-col py-4 md:p-4 justify-center max-w-screen-lg w-full h-full">
-              <div className="">
-                <p className="text-4xl font-bold inline border-b-4 border-gray-500">
-                  Get in touch
-                </p>
-                <p className="py-4">
-                  Submit the form below to get in touch with us
-                </p>
-              </div>
+         
 
               <div className="flex justify-center items-center ">
                 <form
@@ -75,7 +68,7 @@ const SupportPage = ({ userData }) => {
                     placeholder="Enter your message"
                     required
                   ></textarea>
-                  <button className="group flex gap-1 my-4 py-3 mx-auto px-6 items-center justify-center border-2 cursor-pointer border-white p-2 rounded-md duration-200 hover:border-black hover:bg-white hover:text-black">
+                  <button className="group text-black flex gap-1 my-4 py-3 mx-auto px-6 items-center justify-center border-2 cursor-pointer bg-white p-2 rounded-md duration-200 hover:border-black hover:bg-white hover:text-black">
                     Let's Talk{" "}
                     <span className="group-hover:rotate-45 duration-300 flex items-center  ">
                       <RiSendPlaneFill />

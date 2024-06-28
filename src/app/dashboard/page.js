@@ -16,6 +16,8 @@ export default function Dashboard() {
     handlePhoneSubmit,
     handleOTPSubmit,
     handleConsentSubmit,
+    handleSendVerificationEmail,
+    checkEmailVerification
   } = useUserSession();
 
   const router = useRouter();
@@ -34,6 +36,8 @@ export default function Dashboard() {
         onOTPSubmit={handleOTPSubmit}
         onConsentSubmit={handleConsentSubmit}
         initialStep={initialStep}
+        handleSendVerificationEmail = {handleSendVerificationEmail}
+        checkEmailVerification = {checkEmailVerification}
       />:
         (<>
           <DashboardPage userData={user} />

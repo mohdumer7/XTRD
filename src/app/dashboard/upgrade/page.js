@@ -15,7 +15,9 @@ export default function Upgrade() {
     handlePhoneSubmit,
     handleOTPSubmit,
     handleConsentSubmit,
-    initialStep
+    initialStep,
+    handleSendVerificationEmail,
+    checkEmailVerification,
   } = useUserSession();
 
   const router = useRouter();
@@ -34,6 +36,8 @@ export default function Upgrade() {
         onOTPSubmit={handleOTPSubmit}
         onConsentSubmit={handleConsentSubmit}
         initialStep={initialStep}
+        handleSendVerificationEmail = {handleSendVerificationEmail}
+        checkEmailVerification = {checkEmailVerification}
       />:
         (<>
           <UpgradePage userData={user} />

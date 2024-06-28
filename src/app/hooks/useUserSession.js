@@ -12,9 +12,8 @@ const useUserSession = () => {
   const user = useSelector((state) => state.user);
   const [loading, setLoading] = useState(true);
   const [fetchingUser, setFetchingUser] = useState(true);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [initialStep, setInitialStep] = useState(1);
-  
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const dispatch = useDispatch();
   const router = useRouter();
@@ -26,16 +25,24 @@ const useUserSession = () => {
           if (!user.email) {
             const { email } = session.user;
             const response = await fetch(`${apiUrl}/api/user?email=${email}`);
-            console.log(response);
             if (response.ok) {
               const { data: userData } = await response.json();
               dispatch(setUser(userData));
-              if (!userData.phoneNumber || userData.phoneNumber === "NULL") {
+              if (!userData.phoneNumber || userData.phoneNumber === "NULL" || !userData.phoneNumberAuthenticated) {
                 setIsModalOpen(true);
-              } else if (userData.phoneNumberAuthenticated && !userData.didConsent) {
+              } else if (userData.phoneNumberAuthenticated && !userData.emailVerified) {
                 setIsModalOpen(true);
-                setInitialStep(3); // Skip to terms and conditions if phoneNumberAuthenticated is true
-              }else{
+                console.log({userData})
+                if(!userData.emailVerified){
+                  await handleSendVerificationEmail(userData.email)
+                }
+                setInitialStep(3); 
+              } else if (userData.emailVerified) {
+                if(!userData.didConsent){
+                  setIsModalOpen(true);
+                  setInitialStep(4); // Show email verification step
+                }
+              } else {
                 setIsModalOpen(false);
               }
               setLoading(false);
@@ -90,8 +97,10 @@ const useUserSession = () => {
       });
       if (verifyOtp.status === 200) {
         toast.success("Phone Number Updated!");
-        setInitialStep(3); // Proceed to terms and conditions
-        // setFetchingUser(true); // Trigger refetch of user data
+
+          await handleSendVerificationEmail()
+          setInitialStep(3); 
+
       } else {
         toast.error("Invalid OTP!");
       }
@@ -101,17 +110,63 @@ const useUserSession = () => {
     }
   };
 
+  const handleSendVerificationEmail = async (email="") => {
+    try {
+      const response = await fetch(`${apiUrl}/api/send-verification-email`, {
+        method: "POST",
+        body: JSON.stringify({ email: user.email?? email }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (response.ok) {
+        toast.success("Verification email sent!");
+
+      } else {
+        const data = await response.json();
+        toast.error(data.message || "Error sending verification email");
+      }
+    } catch (error) {
+      console.error("Error sending verification email:", error);
+      throw error;
+    }
+  };
+
+  const checkEmailVerification = async () => {
+    try {
+      const response = await fetch(`${apiUrl}/api/check-verification-email`, {
+        method: "POST",
+        body: JSON.stringify({ email: user.email}),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      console.log("email-ver",response)
+      const data = await response.json();
+      if (response.ok) {
+
+          setInitialStep(4); // Proceed to terms and conditions
+          toast.success("Email verified successfully!");
+      } else {
+        toast.error(data.message || "Error checking email verification");
+      }
+    } catch (error) {
+      console.error("Error checking email verification:", error);
+      throw error;
+    }
+  };
+
   const handleConsentSubmit = async () => {
     try {
-     const response = await fetch(`${apiUrl}/api/consent`, {
+      const response = await fetch(`${apiUrl}/api/consent`, {
         method: "POST",
         body: JSON.stringify({ email: user.email, didConsent: true }),
         headers: {
           "Content-Type": "application/json",
         },
       });
-      if(response.status === 200){
-        setFetchingUser(true); 
+      if (response.status === 200) {
+        setFetchingUser(true);
       }
     } catch (error) {
       console.error("Error submitting consent:", error);
@@ -128,6 +183,8 @@ const useUserSession = () => {
     initialStep,
     handlePhoneSubmit,
     handleOTPSubmit,
+    handleSendVerificationEmail,
+    checkEmailVerification,
     handleConsentSubmit,
   };
 };

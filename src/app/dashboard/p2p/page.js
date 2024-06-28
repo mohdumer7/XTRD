@@ -16,7 +16,9 @@ export default function P2p() {
     handlePhoneSubmit,
     handleOTPSubmit,
     handleConsentSubmit,
-    initialStep
+    initialStep,
+    handleSendVerificationEmail,
+    checkEmailVerification,
   } = useUserSession();
 
   const router = useRouter();
@@ -35,6 +37,8 @@ export default function P2p() {
         onOTPSubmit={handleOTPSubmit}
         onConsentSubmit={handleConsentSubmit}
         initialStep={initialStep}
+        handleSendVerificationEmail = {handleSendVerificationEmail}
+        checkEmailVerification = {checkEmailVerification}
       />:
         (<>
           <P2pPage userData={user} />
